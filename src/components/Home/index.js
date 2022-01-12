@@ -13,7 +13,6 @@ import BasicPagination from '../Pagination'
 import Header from '../Header'
 import './index.css'
 
-
 /** Hook to determine window size for image quality */
 function getWindowDimensions() {
     const { innerWidth: width, innerHeight: height } = window;
@@ -79,7 +78,7 @@ export default function Home() {
     useEffect(
     () => fetchData()
         , // eslint-disable-next-line
-    [query],
+    [query, page],
     )
     /**
      * Query sent to API 
@@ -125,7 +124,7 @@ export default function Home() {
                     {images.map((image, key) => (
                         <ImageListItem key={key}>
 
-                        {/* Identify desktop or mobile and render appropriate image size */}
+                        {/* Based on screen size, renders different quality photos */}
                         {
                             width > 1000
                             ? <img 
@@ -150,9 +149,7 @@ export default function Home() {
                                 setOpenPopup(true)
                                 }}
                         />
-                            
                         }
-                        
                         </ImageListItem>
                     ))}
                 </ImageList>

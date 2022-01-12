@@ -1,10 +1,10 @@
-// import React from 'react';
 import {
     Box,
     Grid,
     Modal
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close'
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 const style = {
   position: 'absolute',
@@ -18,12 +18,9 @@ const style = {
   boxShadow: 24,
   p:1,
   m: 'auto',
-  touchAction: 'pinch-zoom'
 };
 
 export default function LargeImage(props) {
-  
-
   return (
       <Modal
         open={props.open}
@@ -32,12 +29,16 @@ export default function LargeImage(props) {
         onBlur={props.closeImage}
       >
       <Grid item xs={12} >
-        <Box
-            sx={style}
-            component="img"
-            src={props.url} 
-            alt={props.alt}
-            />
+        <TransformWrapper>
+        <TransformComponent>
+            <Box
+                sx={style}
+                component="img"
+                src={props.url} 
+                alt={props.alt}
+                />
+        </TransformComponent>
+        </TransformWrapper>
         <CloseIcon 
             sx={{
                 position: 'absolute',
@@ -51,7 +52,6 @@ export default function LargeImage(props) {
             onClick={props.closeImage}
         />
       </Grid>
-        
       </Modal>
   );
 }

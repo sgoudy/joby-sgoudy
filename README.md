@@ -1,3 +1,8 @@
+# joby-sgoudy
+This project also lives <a href="https://joby-sgoudy.netlify.app" target="_blank">here</a>, so you can test it out on mobile.
+
+I 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -68,4 +73,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# joby-sgoudy
