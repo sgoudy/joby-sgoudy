@@ -90,7 +90,7 @@ export default function Home() {
 
                     {/*  Loading displays while fetching */}
                     {loading
-                    ?   <Typography>
+                    ?   <Typography sx={{color: '#343a42'}}>
                         ...loading...
                         </Typography>
                     : null}

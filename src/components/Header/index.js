@@ -28,7 +28,8 @@ export default function Header(props) {
                 onSubmit={props.handleSubmit} 
                 sx={{ 
                     maxWidth: 1000,
-                    p: 1
+                    p: 1,
+                    color: '#353a42'
                     }}>
                 <TextField
                     margin="normal"
