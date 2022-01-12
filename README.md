@@ -1,5 +1,5 @@
 # joby-sgoudy
-This project also lives <a href="https://joby-sgoudy.netlify.app" target="_blank">here</a>, so you can test it out on mobile.
+This project also lives <a href="https://blissful-curran-6ad30c.netlify.app/" target="_blank">here</a>, so you can test it out on mobile.
 
 
 # Getting Started with Create React App
