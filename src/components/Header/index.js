@@ -13,7 +13,6 @@ export default function Header(props) {
                 justifyContent: 'space-around',
                 alignItems: 'center',
                 mx: 'auto',
-                my: 4,
                 }}>
             <Box
                 component="img"
@@ -36,7 +35,7 @@ export default function Header(props) {
                     fullWidth
                     id="search"
                     name="search"
-                    label="Customize your results"
+                    label="Search"
                     value={props.value} 
                     onChange={(e)=>props.setValue(e.target.value)}
                 />

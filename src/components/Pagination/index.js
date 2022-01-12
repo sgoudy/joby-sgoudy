@@ -7,7 +7,8 @@ export default function BasicPagination(props) {
     return (
         <Stack sx={{
             m: 'auto', 
-            p: 1}}>
+            // width: '100%',
+            }}>
         <Pagination 
             count={10} 
             onChange={(e, val)=> {

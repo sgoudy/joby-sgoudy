@@ -5,18 +5,40 @@ import {
     Box,
     ImageList,
     ImageListItem,
-    Pagination,
-    TextField,
     Typography
 } from '@mui/material'
 import apiKey from '../config';
 import LargeImage from '../LargeImage'
 import BasicPagination from '../Pagination'
 import Header from '../Header'
+import './index.css'
 
 
+/** Hook to determine window size for image quality */
+function getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+      width,
+      height
+    };
+  }
+  
+  export function useWindowDimensions() {
+    const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  
+    useEffect(() => {
+      function handleResize() {
+        setWindowDimensions(getWindowDimensions());
+      }
+  
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }, []);
+    return windowDimensions;
+  }
+
+/** Home Component  */
 export default function Home() {
-
     const [value, setValue] = useState('');
     const [query, setQuery] = useState('military aircraft')
     const [images, setImages] = useState([])
@@ -25,7 +47,7 @@ export default function Home() {
     const [openPopup, setOpenPopup] = useState(false)
     const [alt, setAlt]= useState('')
     const [page, setPage] = useState(1)
-    const [windowSize, setWindowSize] = useState(false)
+    const { height, width } = useWindowDimensions();
     
     const closeImage = () => {
         setOpenPopup(false)
@@ -35,15 +57,12 @@ export default function Home() {
         setPage(val)
     }
 
-
     /**
      *  Requests images from unsplash
      *  @param {string} query 
      */
     const fetchData=()=>{
         setLoading(true);
-        setWindowSize(false);
-        console.log('query page ' + page)
         axios.get(`https://api.unsplash.com/search/photos/?page=${page}&per_page=30&query=${query}&client_id=${apiKey}`)
         .then(res => {
             setLoading(false);
@@ -58,12 +77,10 @@ export default function Home() {
      * Updates images based on user query
      */
     useEffect(
-    () => {
-        window.addEventListener("resize", updateImageSize);
-        fetchData()}, // eslint-disable-next-line
-    [query, page],
+    () => fetchData()
+        , // eslint-disable-next-line
+    [query],
     )
-
     /**
      * Query sent to API 
      * @param {*} e 
@@ -75,16 +92,12 @@ export default function Home() {
         setValue('')
     }
 
-    const updateImageSize =()=>{
-        setWindowSize({ windowSize: window.innerWidth > 1450 });
-      }
     return (
-        <Grid container component="main" sx={{ height: '100vh', m: 'auto' }}>
-
+        <Grid container className="main" component="main" >
             <Header handleSubmit={handleSubmit} value={value} setValue={setValue}/>
 
             {/* Main Display*/}
-            <Grid item xs={12} sx={{p: 2}}>
+            <Grid item xs={12} sx={{px: 2}}>
 
                 <Box sx={{textAlign: 'center'}}>
 
@@ -114,7 +127,7 @@ export default function Home() {
 
                         {/* Identify desktop or mobile and render appropriate image size */}
                         {
-                            windowSize
+                            width > 1000
                             ? <img 
                             src={`${image.urls.full}`}
                             srcSet={`${image.urls.full}`}

@@ -1,0 +1,17 @@
+.main {
+    height: 100vh;
+    overflow-y: scroll;
+    position: sticky;
+    top: 10px;
+    margin: 'auto'
+  }
+
+::-webkit-scrollbar {
+    width: 15px;
+  }
+::-webkit-scrollbar-track {
+background-color: #F3F4F5;
+}
+::-webkit-scrollbar-thumb {
+background-color: #353A42;
+}

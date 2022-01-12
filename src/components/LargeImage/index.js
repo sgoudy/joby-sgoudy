@@ -12,12 +12,13 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '80%',
-  maxWidth: 1000,
+  maxWidth: 800,
   bgcolor: '#0075e2',
   border: '4px solid #F3F4F5',
   boxShadow: 24,
   p:1,
   m: 'auto',
+  touchAction: 'pinch-zoom'
 };
 
 export default function LargeImage(props) {
@@ -46,7 +47,6 @@ export default function LargeImage(props) {
                 border: '4px solid #F3F4F5',
                 p: 1,
                 color: '#F3F4F5',
-                touchAction: 'pinch-zoom'
             }}
             onClick={props.closeImage}
         />
