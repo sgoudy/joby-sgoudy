@@ -25,6 +25,7 @@ export default function Home() {
     const [openPopup, setOpenPopup] = useState(false)
     const [alt, setAlt]= useState('')
     const [page, setPage] = useState(1)
+    const [windowSize, setWindowSize] = useState(false)
     
     const closeImage = () => {
         setOpenPopup(false)
@@ -41,6 +42,7 @@ export default function Home() {
      */
     const fetchData=()=>{
         setLoading(true);
+        setWindowSize(false);
         console.log('query page ' + page)
         axios.get(`https://api.unsplash.com/search/photos/?page=${page}&per_page=30&query=${query}&client_id=${apiKey}`)
         .then(res => {
@@ -56,7 +58,9 @@ export default function Home() {
      * Updates images based on user query
      */
     useEffect(
-    () => fetchData(), // eslint-disable-next-line
+    () => {
+        window.addEventListener("resize", updateImageSize);
+        fetchData()}, // eslint-disable-next-line
     [query, page],
     )
 
@@ -71,6 +75,9 @@ export default function Home() {
         setValue('')
     }
 
+    const updateImageSize =()=>{
+        setWindowSize({ windowSize: window.innerWidth > 1450 });
+      }
     return (
         <Grid container component="main" sx={{ height: '100vh', m: 'auto' }}>
 
@@ -101,10 +108,25 @@ export default function Home() {
                 </Box>
                 
                 {/* Image Gallery */}
-                <ImageList cols={3} rowHeight={250}>
+                <ImageList cols={3} rowHeight='auto'>
                     {images.map((image, key) => (
                         <ImageListItem key={key}>
-                        <img
+
+                        {/* Identify desktop or mobile and render appropriate image size */}
+                        {
+                            windowSize
+                            ? <img 
+                            src={`${image.urls.full}`}
+                            srcSet={`${image.urls.full}`}
+                            loading="lazy"
+                            alt={`${image.alt_description}`}
+                            onClick={()=>{
+                                setURLLarge(image.urls.full);
+                                setAlt(image.alt_description)
+                                setOpenPopup(true)
+                                }}
+                            />
+                            : <img 
                             src={`${image.urls.thumb}?w=164&h=164&fit=crop&auto=format`}
                             srcSet={`${image.urls.thumb}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                             loading="lazy"
@@ -115,6 +137,9 @@ export default function Home() {
                                 setOpenPopup(true)
                                 }}
                         />
+                            
+                        }
+                        
                         </ImageListItem>
                     ))}
                 </ImageList>
