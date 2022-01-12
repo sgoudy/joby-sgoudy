@@ -12,8 +12,8 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '80%',
-  bgcolor: '#F3F4F5',
-  border: '4px solid #353A42',
+  bgcolor: '#353A42',
+  border: '4px solid #F3F4F5',
   boxShadow: 24,
   p:1,
   m: 'auto',
@@ -42,6 +42,7 @@ export default function LargeImage(props) {
                 top: 0,
                 right: 0,
                 backgroundColor: '#353A42',
+                border: '4px solid #F3F4F5',
                 p: 1,
                 color: '#F3F4F5',
                 touchAction: 'pinch-zoom'

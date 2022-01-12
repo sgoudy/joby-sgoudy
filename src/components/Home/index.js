@@ -9,9 +9,10 @@ import {
     TextField,
     Typography
 } from '@mui/material'
-import hs from '../../images/logo96x96.png'
 import apiKey from '../config';
 import LargeImage from '../LargeImage'
+import BasicPagination from '../Pagination'
+import Header from '../Header'
 
 
 export default function Home() {
@@ -23,11 +24,16 @@ export default function Home() {
     const [urlLarge, setURLLarge] = useState('')
     const [openPopup, setOpenPopup] = useState(false)
     const [alt, setAlt]= useState('')
+    const [page, setPage] = useState(1)
     
-
     const closeImage = () => {
         setOpenPopup(false)
       }
+
+    const setNewPage = (val) => {
+        setPage(val)
+    }
+
 
     /**
      *  Requests images from unsplash
@@ -35,7 +41,8 @@ export default function Home() {
      */
     const fetchData=()=>{
         setLoading(true);
-        axios.get(`https://api.unsplash.com/search/photos/?page=1&per_page=30&query=${query}&client_id=${apiKey}`)
+        console.log('query page ' + page)
+        axios.get(`https://api.unsplash.com/search/photos/?page=${page}&per_page=30&query=${query}&client_id=${apiKey}`)
         .then(res => {
             setLoading(false);
             setImages(res.data.results);
@@ -43,15 +50,14 @@ export default function Home() {
         .catch(error => {
             console.log('Error fetching and parsing results', error);
         });
-        
     };
-  
+
     /**
      * Updates images based on user query
      */
     useEffect(
     () => fetchData(), // eslint-disable-next-line
-    [query],
+    [query, page],
     )
 
     /**
@@ -66,58 +72,36 @@ export default function Home() {
     }
 
     return (
-        <Grid container component="main" sx={{ height: '100vh' }}>
-            <Grid container  sx={{height: '10vh', my: 2}}>
-                <Grid item xs={4} 
-                    component="img"
-                    src={hs} 
-                    sx={{
-                        maxHeight: 100,
-                        maxWidth: 100,
-                        m: 'auto',
-                        p: 1
-                        }}/>
-                <Grid item xs={7} 
-                    component="form" 
-                    noValidate 
-                    onSubmit={handleSubmit} 
-                    sx={{ 
-                        p: 1,
-                        m:'auto' 
-                        }}>
-                    <TextField
-                        margin="normal"
-                        fullWidth
-                        id="search"
-                        name="search"
-                        label="Customize your results"
-                        value={value} 
-                        onChange={(e)=>setValue(e.target.value)}
-                    />
-                </Grid>
-            </Grid>
+        <Grid container component="main" sx={{ height: '100vh', m: 'auto' }}>
 
-            {/*  Loading displays while fetching */}
-            {loading
-            ?   <Typography sx={{m: 'auto'}}>
-                ...loading...
-                </Typography>
-            : null}
+            <Header handleSubmit={handleSubmit} value={value} setValue={setValue}/>
 
-            {/* Renders Large Image Modal */}
-            {urlLarge
-            ? 
-            <LargeImage
-            open={openPopup}
-            closeImage={closeImage}
-            url={urlLarge}
-            alt={alt}
-            />
-            : null}
-            
-            {/* Image Gallery */}
-            <Grid container sx={{height: '90vh'}}>
-                <ImageList sx={{ width: 500 }} cols={3} rowHeight={164}>
+            {/* Main Display*/}
+            <Grid item xs={12} sx={{p: 2}}>
+
+                <Box sx={{textAlign: 'center'}}>
+
+                    {/*  Loading displays while fetching */}
+                    {loading
+                    ?   <Typography>
+                        ...loading...
+                        </Typography>
+                    : null}
+
+                    {/* Renders Large Image Modal */}
+                    {urlLarge
+                    ? 
+                    <LargeImage
+                        open={openPopup}
+                        closeImage={closeImage}
+                        url={urlLarge}
+                        alt={alt}
+                        />
+                    : null}
+                </Box>
+                
+                {/* Image Gallery */}
+                <ImageList cols={3} rowHeight={250}>
                     {images.map((image, key) => (
                         <ImageListItem key={key}>
                         <img
@@ -135,6 +119,9 @@ export default function Home() {
                     ))}
                 </ImageList>
             </Grid>
+
+            {/* Pagination Filtering */}
+            <BasicPagination setPage={setNewPage}/>
             
         </Grid>
     )
