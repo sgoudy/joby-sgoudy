@@ -6,9 +6,8 @@ export default function BasicPagination(props) {
     
     return (
         <Stack sx={{
-            m: 'auto', 
-            position: 'absolute',
-            bottom: 0
+            mx: 'auto', 
+            marginBottom: 2
             }}>
         <Pagination 
             count={10} 
